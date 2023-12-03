@@ -24,16 +24,16 @@ const Login = () => {
         <TextInputs secure title={'Password'} plcName={'Password'} plcTxtColor={color.Black} source={require('../../Assets/Icons/Login/password.png')} ></TextInputs>
         </View>
         <View style={style.forgetTextView}>
-          <TouchableOpacity onPress={()=>Navigation.navigate('ForgetPassword')}>
-          <Text style={style.forgetText}>Forget Password</Text>
+          <TouchableOpacity onPress={()=>Navigation.navigate('OrdersScreen')}>
+          <Text style={style.forgetText}>Rider</Text>
           </TouchableOpacity>
         </View>
         </View>
           <Button title={'Login'} onpress={()=>Navigation.navigate('Bottomtabs')}/>
         <View style={style.DontView}>
           <Text style={style.DontText}>Don't have account ? </Text>
-          <TouchableOpacity onPress={()=>Navigation.navigate('SignUp')}>
-          <Text style={style.RegText}>Register</Text>
+          <TouchableOpacity onPress={()=>Navigation.navigate('AdminHome')}>
+          <Text style={style.RegText}>Admin</Text>
           </TouchableOpacity>
         </View>
       </View>

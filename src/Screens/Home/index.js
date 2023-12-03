@@ -1,75 +1,37 @@
 import { View, Text, Image, TouchableOpacity, ImageBackground, ScrollView, FlatList } from 'react-native'
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import Swiper from 'react-native-swiper'
 import style from '../Home/style'
 import { useNavigation } from '@react-navigation/native'
+import database from '@react-native-firebase/database';
 
 const Home = () => {
   const navigation = useNavigation();
 
-  const Array = [
-    {
-      food: "burger"
-    },
-    {
-      food: "Pizza"
-    },
-    {
-      food: "Wings"
-    },
-    {
-      food: "Roll"
-    },
-    {
-      food: "spaghetti"
-    }
-  ]
 
-  const BurgerMenu = [
-    {
+  const [selectedRestaurantId, setSelectedRestaurantId] = useState('');
+  const [restaurants, setRestaurants] = useState([]);
+  console.log(restaurants)
 
-      burgerimg: require('../../Assets/Images/ZingerFrame.png'),
-      dillimage: require('../../Assets/Icons/ProductDetail/heart.png'),
-      boximg: require('../../Assets/Icons/Home/AddCart.png'),
-      brandname: 'McDonald',
-      itemname: "Cheese Burger",
-      price: '$5.99'
-    },
-    {
+  useEffect(() => {
+    // Load the list of restaurants from Firebase
+    const restaurantRef = database().ref('restaurants');
+    restaurantRef.on('value', (snapshot) => {
+      const restaurantData = snapshot.val();
+      if (restaurantData) {
+        const restaurantList = Object.entries(restaurantData).map(([id, data]) => ({
+          id,
+          ...data,
+        }));
+        setRestaurants(restaurantList);
+      }
+    });
 
-      burgerimg: require('../../Assets/Images/ZingerFrame.png'),
-      dillimage: require('../../Assets/Icons/ProductDetail/heart.png'),
-      boximg: require('../../Assets/Icons/Home/AddCart.png'),
-      brandname: 'McDonald',
-      itemname: "Cheese Burger",
-      price: '$5.99'
-    },
-    {
-      burgerimg: require('../../Assets/Images/ZingerFrame.png'),
-      dillimage: require('../../Assets/Icons/ProductDetail/heart.png'),
-      boximg: require('../../Assets/Icons/Home/AddCart.png'),
-      brandname: 'McDonald',
-      itemname: "Cheese Burger",
-      price: '$5.99'
-    },
-    {
-      burgerimg: require('../../Assets/Images/ZingerFrame.png'),
-      dillimage: require('../../Assets/Icons/ProductDetail/heart.png'),
-      boximg: require('../../Assets/Icons/Home/AddCart.png'),
-      brandname: 'McDonald',
-      itemname: "Cheese Burger",
-      price: '$5.99'
-    },
-    {
-      burgerimg: require('../../Assets/Images/ZingerFrame.png'),
-      dillimage: require('../../Assets/Icons/ProductDetail/heart.png'),
-      boximg: require('../../Assets/Icons/Home/AddCart.png'),
-      brandname: 'McDonald',
-      itemname: "Cheese Burger",
-      price: '$5.99'
-    }
+    // Cleanup the event listener on component unmount
+    return () => restaurantRef.off('value');
+  }, []);
 
-  ]
+
 
   return (
 
@@ -85,10 +47,10 @@ const Home = () => {
 
         <View style={style.ImageCartView}>
         </View>
-        <View style={style.CartImageView}>
+        <TouchableOpacity onPress={()=>navigation.navigate('CartScreen')} style={style.CartImageView}>
           <Image source={require('../../Assets/Icons/Home/Cart.png')} style={style.CartImage} />
           <Text style={style.TextStyle}>Cart</Text>
-        </View>
+        </TouchableOpacity>
 
       </View>
 
@@ -154,61 +116,26 @@ const Home = () => {
       </View>
 
 
-      <View style={{ height: 100, padding: '2%' }}>
-        <Text style={style.Categoriestxt}>
-          Categories
-        </Text>
-        <View sty={style.mapView}>
-          <FlatList
-            // numColumns={0}
-            data={Array}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => {
-              return (
-                <View style={style.FlatView}>
-                  <TouchableOpacity style={style.TouchableOpacityView} onPress={() => navigation.navigate('Categories')}>
-
-                    <Text style={style.FlatText}>{item.food}</Text>
-                  </TouchableOpacity>
-                </View>
-
-              )
-            }}
-          >
-          </FlatList>
-        </View>
-      </View>
+   
 
 
-      <View style={{ height: 200, padding: '2.5%' }}>
-        <Text style={style.MoStSellingTXT}>Most Selling</Text>
+        <Text style={style.MoStSellingTXT}>Kfueit Canteens</Text>
         <View>
           <FlatList
-            data={BurgerMenu}
-            horizontal={true}
+            data={restaurants}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item }) => {
+              console.log(item.id,'iddddddd')
               return (
                 <View style={style.FlatView2}>
                   <View style={style.TouchableOpacityView2}>
-                    <TouchableOpacity>
-                      <ImageBackground imageStyle={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }} source={item.burgerimg} style={style.ImageBackgroundSty}>
-                        <TouchableOpacity>
-                          <Image source={item.dillimage} style={style.DillImageSty} />
-                        </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('RestaurantDetailScreen', { restaurant: item })}>
+                      <ImageBackground imageStyle={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }} source={{ uri: item.image }} style={style.ImageBackgroundSty}>
+                
                       </ImageBackground>
                     </TouchableOpacity>
-                    <Text style={style.FlatText2}>{item.brandname}</Text>
-                    <View style={style.TwoView}>
-                      <TouchableOpacity>
-                        <Text style={style.ItemView}>{item.itemname}</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity>
-                        <Image source={item.boximg} style={style.BoxView}></Image>
-                      </TouchableOpacity>
-                    </View>
-                    <Text style={style.PriceView}>{item.price.toString()}</Text>
+                        <Text style={style.ItemView}>{item.name}</Text>
+                  
 
                   </View>
                 </View>
@@ -218,46 +145,8 @@ const Home = () => {
 
         </View>
 
-      </View>
 
-      <View style={{ height: 200, marginTop: "5%", padding: '2.5%' }}>
-        <Text style={style.MoStSellingTXT2}>Popular</Text>
-        <View>
-          <FlatList
-            data={BurgerMenu}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => {
-              return (
-                <View style={style.FlatView22}>
-                  <View style={style.TouchableOpacityView22}>
-                    <TouchableOpacity >
-                      <ImageBackground imageStyle={{ borderTopLeftRadius: 10, borderTopRightRadius: 10 }} source={item.burgerimg} style={style.ImageBackgroundSty2}>
-                        <TouchableOpacity>
-                          <Image source={item.dillimage} style={style.DillImageSty2} />
-                        </TouchableOpacity>
-                      </ImageBackground>
-                    </TouchableOpacity>
-                    <Text style={style.FlatText22}>{item.brandname}</Text>
-                    <View style={style.TwoView2}>
-                      <TouchableOpacity>
-                        <Text style={style.ItemView2}>{item.itemname}</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity>
-                        <Image source={item.boximg} style={style.BoxView2}></Image>
-                      </TouchableOpacity>
-                    </View>
-                    <Text style={style.PriceView2}>{item.price.toString()}</Text>
-
-                  </View>
-                </View>
-              );
-            }}
-          />
-
-        </View>
-
-      </View>
+     
       <View style={{ height: 50 }} />
 
     </ScrollView>

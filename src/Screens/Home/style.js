@@ -144,7 +144,7 @@ const style = StyleSheet.create({
     MoStSellingTXT: {
         color: color.Black,
         fontSize: 20,
-        marginLeft: "2%",
+        marginLeft: "5%",
         fontFamily:Fonts.GillroySemiBold,
 
     },
@@ -154,8 +154,8 @@ const style = StyleSheet.create({
         marginTop: "5%"
     },
     TouchableOpacityView2: {
-        height: 175,
-        width: 200,
+        height: 240,
+        width: '90%',
         backgroundColor:color.White,
         borderRadius: 10
     },
@@ -167,7 +167,7 @@ const style = StyleSheet.create({
         fontFamily:Fonts.GillroySemiBold,
     },
     ImageBackgroundSty: {
-        height: 100,
+        height: 200,
         width: "100%"
     },
     DillImageSty: {
@@ -184,7 +184,8 @@ const style = StyleSheet.create({
         fontFamily:Fonts.GillroyBold,
         fontSize: 16,
         color: color.Black,
-        marginLeft:"5%"
+        marginLeft:"5%",
+        marginTop:'5%'
     },
     BoxView: {
         height: 42,

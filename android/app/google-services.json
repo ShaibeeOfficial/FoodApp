@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "535685669837",
+    "project_id": "foodease-f1264",
+    "storage_bucket": "foodease-f1264.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:535685669837:android:8a90ee56e64abdfcb95a84",
+        "android_client_info": {
+          "package_name": "com.foodease"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOWGADHTH3kcpex0gigsxonAvTWcfQ5uc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package com.happytummy;
+package com.foodease;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
